@@ -34,6 +34,15 @@ restore()
 // any previous values of FOO and BAR restored
 ```
 
+If you want to temporarily delete environment variable, pass `undefined` value
+
+```js
+let restore = mockedEnv({
+  FOO: 'fake foo value',
+  PWD: undefined, // will be deleted from process.env
+})
+```
+
 ## Example
 
 ```js

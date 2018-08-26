@@ -83,21 +83,45 @@ describe('mocked-env', () => {
     })
   })
 
-  // context.skip('faking undefined environment variable', () => {
-  //   let sandbox = sinon.createSandbox()
+  context('deleting variable', () => {
+    it('has npm_package_description', () => {
+      la(
+        is.unemptyString(process.env.npm_package_description),
+        'expected description text in package.json',
+        process.env.npm_package_description
+      )
+    })
 
-  //   beforeEach(() => {
-  //     // cannot stub or fake non-existent property
-  //     sandbox.fake(process.env, 'FOOBAR').returns('foo-fake')
-  //   })
+    describe('actually deleting', () => {
+      let restore
 
-  //   it('has been set', () => {
-  //     console.log('process.env.FOOBAR =', process.env.FOOBAR)
-  //     // snapshot({ FOOBAR: process.env.FOOBAR })
-  //   })
+      beforeEach(() => {
+        // deletes env variable by setting its value to undefined
+        restore = mockedEnv({
+          npm_package_description: undefined
+        })
+      })
 
-  //   afterEach(() => {
-  //     sandbox.restore()
-  //   })
-  // })
+      it('has deleted npm_package_description', () => {
+        la(
+          !('npm_package_description' in process.env),
+          'npm_package_description still in process.env',
+          process.env.npm_package_description
+        )
+      })
+
+      afterEach(() => {
+        restore()
+      })
+    })
+
+    after(() => {
+      // still should have npm_package_description
+      la(
+        is.unemptyString(process.env.npm_package_description),
+        'expected npm_package_description after restoring it',
+        process.env.npm_package_description
+      )
+    })
+  })
 })

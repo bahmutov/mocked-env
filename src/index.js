@@ -20,7 +20,13 @@ const mockEnv = changeVariables => {
 
   // change variables
   R.forEach(name => {
-    process.env[name] = changeVariables[name]
+    const value = changeVariables[name]
+    if (value === undefined) {
+      debug('deleting variable', name)
+      delete process.env[name]
+    } else {
+      process.env[name] = changeVariables[name]
+    }
   }, changedVariableNames)
 
   function restoreProcessEnv () {
