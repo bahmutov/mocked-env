@@ -1,7 +1,7 @@
 {
   "name": "mocked-env",
   "description": "Easy way to mock process.env during BDD testing",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "bugs": "https://github.com/bahmutov/mocked-env/issues",
   "config": {
@@ -77,7 +77,9 @@
     "unit": "mocha src/*-spec.js",
     "unused-deps": "dependency-check --unused --no-dev .",
     "stop-only": "stop-only -f src",
-    "warn-only": "stop-only -f src --warn"
+    "warn-only": "stop-only -f src --warn",
+    "semantic-release": "semantic-release",
+    "travis-deploy-once": "travis-deploy-once"
   },
   "devDependencies": {
     "ban-sensitive-files": "1.9.2",
@@ -90,7 +92,9 @@
     "pre-git": "3.17.1",
     "prettier-standard": "8.0.1",
     "standard": "11.0.1",
-    "stop-only": "2.2.1"
+    "stop-only": "2.2.1",
+    "semantic-release": "^15.9.9",
+    "travis-deploy-once": "^5.0.3"
   },
   "dependencies": {
     "check-more-types": "2.24.0",
