@@ -2,10 +2,17 @@
 
 const debug = require('debug')('mocked-env')
 const R = require('ramda')
+const la = require('lazy-ass')
+const is = require('check-more-types')
 
 const mockEnv = changeVariables => {
   debug('will be mocking env variables')
   debug(changeVariables)
+  la(
+    is.object(changeVariables),
+    'expected first argument to be an object of env variables',
+    changeVariables
+  )
 
   const changedVariableNames = R.keys(changeVariables)
   const savedValues = R.pick(changedVariableNames, process.env)
