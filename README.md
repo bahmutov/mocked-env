@@ -26,9 +26,12 @@ let restore = mockedEnv({
   FOO: 'fake foo value',
   BAR: 42,
 })
+// use process.env.FOO and process.env.BAR during testing
+// process.env.FOO = "fake foo value"
+// process.env.BAR = 42
 // after the test
 restore()
-// previous values of FOO and BAR restored
+// any previous values of FOO and BAR restored
 ```
 
 ## Example
