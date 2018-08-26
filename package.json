@@ -11,6 +11,7 @@
         "npm prune",
         "npm run deps",
         "npm test",
+        "npm run warn-only",
         "git add src/*.js",
         "npm run ban"
       ],
@@ -19,6 +20,7 @@
         "npm run secure",
         "npm run license",
         "npm run ban -- --all",
+        "npm run stop-only",
         "npm run size"
       ],
       "post-commit": [],
@@ -73,7 +75,9 @@
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",
     "test": "npm run unit",
     "unit": "mocha src/*-spec.js",
-    "unused-deps": "dependency-check --unused --no-dev ."
+    "unused-deps": "dependency-check --unused --no-dev .",
+    "stop-only": "stop-only -f src",
+    "warn-only": "stop-only -f src --warn"
   },
   "devDependencies": {
     "ban-sensitive-files": "1.9.2",
@@ -85,7 +89,8 @@
     "nsp": "3.2.1",
     "pre-git": "3.17.1",
     "prettier-standard": "8.0.1",
-    "standard": "11.0.1"
+    "standard": "11.0.1",
+    "stop-only": "2.2.1"
   },
   "dependencies": {
     "check-more-types": "2.24.0",

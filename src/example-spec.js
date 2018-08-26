@@ -21,7 +21,5 @@ describe('PWD', () => {
     )
   })
 
-  afterEach(() => {
-    restoreEnv()
-  })
+  afterEach(() => restoreEnv())
 })

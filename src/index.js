@@ -15,7 +15,8 @@ const mockEnv = changeVariables => {
   )
 
   const changedVariableNames = R.keys(changeVariables)
-  const savedValues = R.pick(changedVariableNames, process.env)
+  // make sure we even keep undefined values
+  const savedValues = R.pickAll(changedVariableNames, process.env)
 
   // change variables
   R.forEach(name => {
@@ -25,7 +26,14 @@ const mockEnv = changeVariables => {
   function restoreProcessEnv () {
     debug('restoring env variables', changedVariableNames)
     R.forEach(savedVariableName => {
-      process.env[savedVariableName] = savedValues[savedVariableName]
+      const value = savedValues[savedVariableName]
+      if (value === undefined) {
+        debug('deleting %s', savedVariableName)
+        delete process.env[savedVariableName]
+      } else {
+        debug('restoring %s to value %j', savedVariableName, value)
+        process.env[savedVariableName] = value
+      }
     }, R.keys(savedValues))
   }
 

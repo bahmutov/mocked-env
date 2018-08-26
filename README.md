@@ -21,6 +21,20 @@ npm install --save-dev mocked-env
 
 ```js
 const mockedEnv = require('mocked-env')
+// before the test
+let restore = mockedEnv({
+  FOO: 'fake foo value',
+  BAR: 42,
+})
+// after the test
+restore()
+// previous values of FOO and BAR restored
+```
+
+## Example
+
+```js
+const mockedEnv = require('mocked-env')
 describe('changes variables', () => {
   let restore // to restore old values
 
@@ -34,9 +48,11 @@ describe('changes variables', () => {
     // process.env.PWD = '/foo/bar'
   })
 
-  afterEach(restore)
+  afterEach(() => restore())
 })
 ```
+
+See [src/example-spec.js](src/example-spec.js)
 
 ## Debugging
 

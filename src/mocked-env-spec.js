@@ -27,12 +27,21 @@ describe('mocked-env', () => {
   context('changing variable npm_package_description that exists', () => {
     const fakeValue = 'fake-description'
 
+    before(() => {
+      la(
+        !('FOOBAR' in process.env),
+        'found FOOBAR at the start in process.env, should not be there',
+        process.env.FOOBAR
+      )
+    })
+
     describe('changing', () => {
       let restoreEnv
 
       beforeEach(() => {
         restoreEnv = mockedEnv({
-          npm_package_description: fakeValue
+          npm_package_description: fakeValue,
+          FOOBAR: 'fake-foobar'
         })
       })
 
@@ -41,6 +50,14 @@ describe('mocked-env', () => {
           process.env.npm_package_description === fakeValue,
           'did not change npm_package_description:',
           process.env.npm_package_description
+        )
+      })
+
+      it('has added FOOBAR', () => {
+        la(
+          process.env.FOOBAR === 'fake-foobar',
+          'did not add FOOBAR:',
+          process.env.FOOBAR
         )
       })
 
@@ -54,6 +71,14 @@ describe('mocked-env', () => {
         process.env.npm_package_description !== fakeValue,
         'did not restore npm_package_description:',
         process.env.npm_package_description
+      )
+    })
+
+    it('did not add FOOBAR', () => {
+      la(
+        !('FOOBAR' in process.env),
+        'added FOOBAR into process.env',
+        process.env.FOOBAR
       )
     })
   })
