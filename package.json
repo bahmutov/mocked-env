@@ -86,5 +86,11 @@
     "pre-git": "3.17.1",
     "prettier-standard": "8.0.1",
     "standard": "11.0.1"
+  },
+  "dependencies": {
+    "check-more-types": "2.24.0",
+    "debug": "3.1.0",
+    "lazy-ass": "1.6.0",
+    "ramda": "0.25.0"
   }
 }

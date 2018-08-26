@@ -14,18 +14,45 @@
 Requires [Node](https://nodejs.org/en/) version 6 or above.
 
 ```sh
-npm install --save mocked-env
+npm install --save-dev mocked-env
 ```
 
 ## Use
+
+```js
+const mockedEnv = require('mocked-env')
+describe('changes variables', () => {
+  let restore // to restore old values
+
+  beforeEach(() => {
+    restore = mockedEnv({
+      PWD: '/foo/bar',
+    })
+  })
+
+  it('has changed process.env', () => {
+    // process.env.PWD = '/foo/bar'
+  })
+
+  afterEach(restore)
+})
+```
+
+## Debugging
+
+Run with `DEBUG=mocked-env` environment variable.
+
+## More information
+
+This package was inspired by [burl/mock-env](https://github.com/burl/mock-env)
 
 ### Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2018
 
-* [@bahmutov](https://twitter.com/bahmutov)
-* [glebbahmutov.com](https://glebbahmutov.com)
-* [blog](https://glebbahmutov.com/blog)
+- [@bahmutov](https://twitter.com/bahmutov)
+- [glebbahmutov.com](https://glebbahmutov.com)
+- [blog](https://glebbahmutov.com/blog)
 
 License: MIT - do anything with the code, but don't blame me if it does not work.
 
