@@ -91,7 +91,7 @@ describe('changes variables', () => {
 
 See [src/example-spec.js](src/example-spec.js)
 
-You can also nest `process.env` reset and setting individual values in inner suites, see [src/nested-spec.js](src/nested-spec.js).
+You can also nest `process.env` reset and setting individual values in inner suites, see [src/nested-spec.js](src/nested-spec.js). Great for tests that need to control `process.env` and would like to reset the entire thing, but then mock individual properties.
 
 ## Debugging
 

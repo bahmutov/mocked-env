@@ -70,6 +70,7 @@
     "lint": "standard --verbose --fix src/*.js",
     "prelint": "npm run pretty",
     "pretest": "npm run lint",
+    "posttest": "npm run warn-only",
     "pretty": "prettier-standard 'src/*.js'",
     "secure": "nsp check",
     "size": "t=\"$(npm pack .)\"; wc -c \"${t}\"; tar tvf \"${t}\"; rm \"${t}\";",

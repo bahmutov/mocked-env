@@ -7,7 +7,7 @@ const R = require('ramda')
 
 // clears process.env in the outer suite
 // then sets individual values in each inside suite
-describe.only('process.env reset', () => {
+describe('nested mocking', () => {
   let restore
 
   const wasEmpty = () => {
