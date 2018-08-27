@@ -5,9 +5,17 @@ const R = require('ramda')
 const la = require('lazy-ass')
 const is = require('check-more-types')
 
-const mockEnv = changeVariables => {
+const mockEnv = (changeVariables, options = {}) => {
   debug('will be mocking env variables')
   debug(changeVariables)
+  debug('options')
+  debug(options)
+
+  const defaults = {
+    clear: false
+  }
+  options = R.merge(defaults, options)
+
   la(
     is.object(changeVariables),
     'expected first argument to be an object of env variables',
@@ -16,6 +24,9 @@ const mockEnv = changeVariables => {
 
   const changedVariableNames = R.keys(changeVariables)
 
+  // make sure each new value is a string or undefined
+  // because process.env values are cast as strings when the program starts
+  // and undefined values mean we need to delete them
   R.forEach(name => {
     const value = changeVariables[name]
     la(
@@ -27,6 +38,13 @@ const mockEnv = changeVariables => {
       typeof value
     )
   }, changedVariableNames)
+
+  // start modifying process.env
+  let backupEnv
+  if (options.clear) {
+    backupEnv = R.clone(process.env)
+    process.env = {}
+  }
 
   // make sure we even keep undefined values
   const savedValues = R.pickAll(changedVariableNames, process.env)
@@ -42,7 +60,7 @@ const mockEnv = changeVariables => {
     }
   }, changedVariableNames)
 
-  function restoreProcessEnv () {
+  const restoreSome = () => {
     debug('restoring env variables', changedVariableNames)
     R.forEach(savedVariableName => {
       const value = savedValues[savedVariableName]
@@ -56,7 +74,13 @@ const mockEnv = changeVariables => {
     }, R.keys(savedValues))
   }
 
-  return restoreProcessEnv
+  const restoreBackupEnv = () => {
+    debug('restoring entire process.env')
+    // is overwriting the object the best approach here?
+    process.env = backupEnv
+  }
+
+  return options.clear ? restoreBackupEnv : restoreSome
 }
 
 module.exports = mockEnv

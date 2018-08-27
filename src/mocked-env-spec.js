@@ -4,6 +4,7 @@
 const mockedEnv = require('.')
 const la = require('lazy-ass')
 const is = require('check-more-types')
+const R = require('ramda')
 
 // console.log(process.env)
 
@@ -154,6 +155,38 @@ describe('mocked-env', () => {
           }
         )
       )
+    })
+  })
+
+  describe('clearing process.env', () => {
+    let restore
+
+    beforeEach(() => {
+      restore = mockedEnv(
+        {
+          FOO: 'foo',
+          BAR: 'bar'
+        },
+        { clear: true }
+      )
+    })
+
+    it('has only FOO and BAR', () => {
+      const expected = {
+        FOO: 'foo',
+        BAR: 'bar'
+      }
+      la(
+        R.equals(process.env)(expected),
+        'expected process.env to be',
+        expected,
+        'but it was',
+        process.env
+      )
+    })
+
+    afterEach(() => {
+      restore()
     })
   })
 })

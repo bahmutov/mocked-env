@@ -19,20 +19,24 @@ npm install --save-dev mocked-env
 
 ## Use
 
+### Change values
+
 ```js
 const mockedEnv = require('mocked-env')
 // before the test
 let restore = mockedEnv({
   FOO: 'fake foo value',
-  BAR: 42,
+  BAR: '42',
 })
 // use process.env.FOO and process.env.BAR during testing
 // process.env.FOO = "fake foo value"
-// process.env.BAR = 42
+// process.env.BAR = "42"
 // after the test
 restore()
 // any previous values of FOO and BAR restored
 ```
+
+### Delete values
 
 If you want to temporarily delete environment variable, pass `undefined` value
 
@@ -42,6 +46,25 @@ let restore = mockedEnv({
   PWD: undefined, // will be deleted from process.env
 })
 ```
+
+### Clear entire object
+
+If you want to remove all existing properties and just set some, use option `clear: true`
+
+```js
+let restore = mockedEnv(
+  {
+    FOO: 'foo',
+    BAR: 'bar',
+  },
+  { clear: true }
+)
+// process.env = {FOO: 'foo', BAR: 'bar'}
+```
+
+Again, calling `restore()` will restore the original full `process.env` object.
+
+**⚠️ Note:** `process.env` values should always be strings ([Stackoverflow][1]), any call to `mockedEnv` that attempts to use values other than strings (or `undefined` to signify that a property should be deleted) will raise an error.
 
 ## Example
 
@@ -122,3 +145,4 @@ OTHER DEALINGS IN THE SOFTWARE.
 [standard-url]: http://standardjs.com/
 [renovate-badge]: https://img.shields.io/badge/renovate-app-blue.svg
 [renovate-app]: https://renovateapp.com/
+[1]: https://stackoverflow.com/questions/10265208/node-js-process-env-assigning-process-env-property-to-undefined-results-in-stri/10265271#10265271
