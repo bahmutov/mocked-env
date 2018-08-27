@@ -91,6 +91,8 @@ describe('changes variables', () => {
 
 See [src/example-spec.js](src/example-spec.js)
 
+You can also nest `process.env` reset and setting individual values in inner suites, see [src/nested-spec.js](src/nested-spec.js).
+
 ## Debugging
 
 Run with `DEBUG=mocked-env` environment variable.
