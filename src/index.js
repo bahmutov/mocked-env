@@ -15,6 +15,19 @@ const mockEnv = changeVariables => {
   )
 
   const changedVariableNames = R.keys(changeVariables)
+
+  R.forEach(name => {
+    const value = changeVariables[name]
+    la(
+      value === undefined || is.string(value),
+      'process.env values should always be strings.',
+      'found invalid property',
+      name,
+      'with value of type',
+      typeof value
+    )
+  }, changedVariableNames)
+
   // make sure we even keep undefined values
   const savedValues = R.pickAll(changedVariableNames, process.env)
 

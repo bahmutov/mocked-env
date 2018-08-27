@@ -124,4 +124,36 @@ describe('mocked-env', () => {
       )
     })
   })
+
+  describe('only string values', () => {
+    it('throws if value is a number', () => {
+      la(
+        is.raises(
+          () => {
+            mockedEnv({
+              FOO: 42
+            })
+          },
+          e => {
+            return e.message.includes('should always be strings')
+          }
+        )
+      )
+    })
+
+    it('throws if value is a boolean', () => {
+      la(
+        is.raises(
+          () => {
+            mockedEnv({
+              FOO: true
+            })
+          },
+          e => {
+            return e.message.includes('should always be strings')
+          }
+        )
+      )
+    })
+  })
 })
