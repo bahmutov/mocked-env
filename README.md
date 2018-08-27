@@ -78,7 +78,7 @@ describe('changes variables', () => {
   beforeEach(() => {
     restore = mockedEnv({
       PWD: '/foo/bar',
-      PWD: undefined, // will be deleted from process.env
+      USER: undefined, // will be deleted from process.env
     })
   })
 
