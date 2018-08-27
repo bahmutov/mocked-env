@@ -9,6 +9,8 @@
 [![standard][standard-image]][standard-url]
 [![renovate-app badge][renovate-badge]][renovate-app]
 
+Read [Mocking process.env](https://glebbahmutov.com/blog/mocking-process-env/) blog post.
+
 ## Install
 
 Requires [Node](https://nodejs.org/en/) version 6 or above.
