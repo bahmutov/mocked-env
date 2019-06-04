@@ -5,24 +5,29 @@ const R = require('ramda')
 const la = require('lazy-ass')
 const is = require('check-more-types')
 
-const mockEnv = (changeVariables, options = {}) => {
+const mockEnv = (changeVariables, options) => {
   debug('will be mocking env variables')
   debug(changeVariables)
   debug('options')
   debug(options)
-
-  const defaults = {
-    clear: false
-  }
-  options = R.merge(defaults, options)
-
+ 
   la(
     is.object(changeVariables),
-    'expected first argument to be an object of env variables',
+    'expected first argument to be an object of env variables or the options',
     changeVariables
   )
 
+  // if the 2nd argument is undefined and first argument is an object with only 1 key of 'clear' or 'restore'
+  // assume it is options and the changed variables are not set
   const changedVariableNames = R.keys(changeVariables)
+  if (options === undefined && changedVariableNames.length === 1 && (changedVariableNames[0] === 'clear' || changedVariableNames[0] === 'reset')) {
+    options = R.clone(changedVariableNames)
+    changedVariableNames.length = 0
+  }
+  const defaults = {
+    clear: false
+  }
+  options = R.merge(defaults, options || {})
 
   // make sure each new value is a string or undefined
   // because process.env values are cast as strings when the program starts
@@ -41,8 +46,10 @@ const mockEnv = (changeVariables, options = {}) => {
 
   // start modifying process.env
   let backupEnv
-  if (options.clear) {
+  if (options.clear || options.restore) {
     backupEnv = R.clone(process.env)
+  }
+  if (options.clear) {
     process.env = {}
   }
 
