@@ -26,7 +26,8 @@ const mockEnv = (changeVariables, options) => {
     changedVariableNames = []
   }
   const defaults = {
-    clear: false
+    clear: false,
+    restore: false
   }
   options = R.merge(defaults, options || {})
 
