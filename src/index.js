@@ -80,7 +80,7 @@ const mockEnv = (changeVariables, options = {}) => {
     process.env = backupEnv
   }
 
-  return options.clear ? restoreBackupEnv : restoreSome
+  return options.clear || options.restore ? restoreBackupEnv : restoreSome
 }
 
 module.exports = mockEnv
