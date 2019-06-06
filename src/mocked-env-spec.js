@@ -158,6 +158,20 @@ describe('mocked-env', () => {
     })
   })
 
+  it("'clear' and 'restore' result in error", () => {
+    is.raises(
+      () => {
+        mockedEnv({
+          clear: true,
+          restore: true
+        })
+      },
+      e => {
+        return e.message.includes('only one of')
+      }
+    )
+  })
+
   describe('clearing process.env', () => {
     let restore
 

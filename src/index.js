@@ -34,6 +34,10 @@ const mockEnv = (changeVariables, options) => {
     restore: false
   }
   options = R.merge(defaults, options || {})
+  la(
+    options.clear === false || options.restore === false,
+    "only one of 'clear' or 'restore' may be supplied as an option"
+  )
 
   // make sure each new value is a string or undefined
   // because process.env values are cast as strings when the program starts

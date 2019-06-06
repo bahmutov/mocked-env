@@ -66,6 +66,35 @@ let restore = mockedEnv(
 
 Again, calling `restore()` will restore the original full `process.env` object.
 
+### Restore environment without clearing
+
+If you want to maintain the current environment and restore it to the original state after restore() is called, pass the 'restore' option.
+
+```js
+let restore = mockedEnv(
+  {
+    FOO: 'foo',
+    BAR: 'bar',
+  },
+  { restore: true }
+)
+// process.env = {...process.env, FOO: 'foo', BAR: 'bar'}
+```
+
+These options are mutually exclusive and specifying them both will result in an error.
+
+### Options as first argument
+
+The options array can be passed as the first argument to the `mockedEnv` function as long as it contains either a 'restore' or 'clear' key, not both.
+
+```js
+let restore = mockedEnv(
+  { clear: true }
+)
+// process.env = {}
+```
+
+
 **⚠️ Note:** `process.env` values should always be strings ([Stackoverflow][1]), any call to `mockedEnv` that attempts to use values other than strings (or `undefined` to signify that a property should be deleted) will raise an error.
 
 ## Example
