@@ -10,7 +10,6 @@ const mockEnv = (changeVariables, options) => {
   debug(changeVariables)
   debug('options')
   debug(options)
- 
   la(
     is.object(changeVariables),
     'expected first argument to be an object of env variables or the options',
@@ -20,7 +19,12 @@ const mockEnv = (changeVariables, options) => {
   // if the 2nd argument is undefined and first argument is an object with only 1 key of 'clear' or 'restore'
   // assume it is options and the changed variables are not set
   let changedVariableNames = R.keys(changeVariables)
-  if (options === undefined && changedVariableNames.length === 1 && (changedVariableNames[0] === 'clear' || changedVariableNames[0] === 'reset')) {
+  if (
+    options === undefined &&
+    changedVariableNames.length === 1 &&
+    (changedVariableNames[0] === 'clear' ||
+      changedVariableNames[0] === 'restore')
+  ) {
     options = {}
     options[changedVariableNames[0]] = changeVariables[changedVariableNames[0]]
     changedVariableNames = []
