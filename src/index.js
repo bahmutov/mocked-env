@@ -101,3 +101,6 @@ const mockEnv = (changeVariables, options) => {
 }
 
 module.exports = mockEnv
+
+// Support for ES6 style imports
+module.exports.default = mockEnv

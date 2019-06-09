@@ -34,4 +34,4 @@ declare function mockedEnv(vars: EnvVars, options: MockedEnvOptions): RestoreFn;
 declare function mockedEnv(options: MockedEnvOptions): RestoreFn;
 declare function mockedEnv(vars: EnvVars): RestoreFn;
 
-export = mockedEnv;
+export default mockedEnv;
