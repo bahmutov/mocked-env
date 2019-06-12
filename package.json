@@ -32,6 +32,7 @@
   },
   "files": [
     "src/*.js",
+    "src/index.d.ts",
     "!src/*-spec.js"
   ],
   "homepage": "https://github.com/bahmutov/mocked-env#readme",
@@ -82,6 +83,7 @@
     "semantic-release": "semantic-release",
     "travis-deploy-once": "travis-deploy-once"
   },
+  "types": "src/index.d.ts",
   "devDependencies": {
     "ban-sensitive-files": "1.9.2",
     "dependency-check": "3.3.0",

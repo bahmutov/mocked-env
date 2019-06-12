@@ -158,6 +158,20 @@ describe('mocked-env', () => {
     })
   })
 
+  it("'clear' and 'restore' result in error", () => {
+    is.raises(
+      () => {
+        mockedEnv({
+          clear: true,
+          restore: true
+        })
+      },
+      e => {
+        return e.message.includes('only one of')
+      }
+    )
+  })
+
   describe('clearing process.env', () => {
     let restore
 
@@ -187,6 +201,70 @@ describe('mocked-env', () => {
 
     afterEach(() => {
       restore()
+    })
+  })
+
+  describe('restoring process.env', () => {
+    let restore
+    let defaultEnv
+
+    beforeEach(() => {
+      defaultEnv = R.clone(process.env)
+      process.env.BANG = 'bash'
+      restore = mockedEnv(
+        {
+          FOO: 'foo',
+          BAR: 'bar'
+        },
+        { restore: true }
+      )
+    })
+
+    it('has default env, BANG, FOO and BAR', () => {
+      const expected = R.merge(defaultEnv, {
+        FOO: 'foo',
+        BAR: 'bar',
+        BANG: 'bash'
+      })
+      la(
+        R.equals(process.env)(expected),
+        'expected process.env to be',
+        expected,
+        'but it was',
+        process.env
+      )
+    })
+
+    afterEach(() => {
+      restore()
+    })
+  })
+
+  describe('options as first argument', () => {
+    it("pass 'restore' in options", () => {
+      process.env.FOO = 'bar'
+      const restore = mockedEnv({ restore: true })
+      la(
+        R.equals(process.env.FOO)('bar'),
+        'expected environment to be maintained'
+      )
+      process.env.FOO = 'bash'
+      restore()
+      la(
+        R.equals(process.env.FOO)('bar'),
+        'expected environment to be restored'
+      )
+    })
+    it("pass 'clear' in options", () => {
+      process.env.FOO = 'bar'
+      const restore = mockedEnv({ clear: true })
+      la(process.env.FOO === undefined, 'expected environment to be clear')
+      process.env.FOO = 'bash'
+      restore()
+      la(
+        R.equals(process.env.FOO)('bar'),
+        'expected environment to be restored'
+      )
     })
   })
 })

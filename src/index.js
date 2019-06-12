@@ -5,24 +5,39 @@ const R = require('ramda')
 const la = require('lazy-ass')
 const is = require('check-more-types')
 
-const mockEnv = (changeVariables, options = {}) => {
+const mockEnv = (changeVariables, options) => {
   debug('will be mocking env variables')
   debug(changeVariables)
   debug('options')
   debug(options)
-
-  const defaults = {
-    clear: false
-  }
-  options = R.merge(defaults, options)
-
   la(
     is.object(changeVariables),
-    'expected first argument to be an object of env variables',
+    'expected first argument to be an object of env variables or the options',
     changeVariables
   )
 
-  const changedVariableNames = R.keys(changeVariables)
+  // if the 2nd argument is undefined and first argument is an object with only 1 key of 'clear' or 'restore'
+  // assume it is options and the changed variables are not set
+  let changedVariableNames = R.keys(changeVariables)
+  if (
+    options === undefined &&
+    changedVariableNames.length === 1 &&
+    (changedVariableNames[0] === 'clear' ||
+      changedVariableNames[0] === 'restore')
+  ) {
+    options = {}
+    options[changedVariableNames[0]] = changeVariables[changedVariableNames[0]]
+    changedVariableNames = []
+  }
+  const defaults = {
+    clear: false,
+    restore: false
+  }
+  options = R.merge(defaults, options || {})
+  la(
+    options.clear === false || options.restore === false,
+    "only one of 'clear' or 'restore' may be supplied as an option"
+  )
 
   // make sure each new value is a string or undefined
   // because process.env values are cast as strings when the program starts
@@ -41,8 +56,10 @@ const mockEnv = (changeVariables, options = {}) => {
 
   // start modifying process.env
   let backupEnv
-  if (options.clear) {
+  if (options.clear || options.restore) {
     backupEnv = R.clone(process.env)
+  }
+  if (options.clear) {
     process.env = {}
   }
 
@@ -80,7 +97,10 @@ const mockEnv = (changeVariables, options = {}) => {
     process.env = backupEnv
   }
 
-  return options.clear ? restoreBackupEnv : restoreSome
+  return options.clear || options.restore ? restoreBackupEnv : restoreSome
 }
 
 module.exports = mockEnv
+
+// Support for ES6 style imports
+module.exports.default = mockEnv
