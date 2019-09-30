@@ -93,7 +93,7 @@
     "mocha": "6.2.1",
     "nsp": "3.2.1",
     "pre-git": "3.17.1",
-    "prettier-standard": "9.1.1",
+    "prettier-standard": "15.0.1",
     "standard": "11.0.1",
     "stop-only": "2.2.5",
     "semantic-release": "15.13.24",
