@@ -1,5 +1,5 @@
 interface EnvVars {
-    [varName: string]: string
+    [varName: string]: string | undefined
 }
 
 type MockedEnvOptions =
@@ -10,7 +10,7 @@ type MockedEnvOptions =
         restore: boolean
     };
 
-type RestoreFn = () => void;
+export type RestoreFn = () => void;
 
 /**
  * Mocks the current 'process.env' environment specifying the given vars as values and returns a "Restore Function" that
