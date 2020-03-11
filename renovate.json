@@ -1,8 +1,11 @@
 {
-  "extends": ["config:base"],
+  "extends": [
+    "config:base"
+  ],
   "automerge": true,
   "major": {
     "automerge": false
   },
-  "lockFileMaintenance": true
+  "lockFileMaintenance": true,
+  "masterIssue": true
 }
