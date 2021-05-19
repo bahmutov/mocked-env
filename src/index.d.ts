@@ -1,8 +1,8 @@
-interface EnvVars {
+export interface EnvVars {
     [varName: string]: string | undefined
 }
 
-type MockedEnvOptions =
+export type MockedEnvOptions =
     {
         clear: boolean
     } |
