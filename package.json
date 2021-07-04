@@ -63,7 +63,7 @@
   },
   "dependencies": {
     "check-more-types": "2.24.0",
-    "debug": "4.3.1",
+    "debug": "4.3.2",
     "lazy-ass": "1.6.0",
     "ramda": "0.27.1"
   }
